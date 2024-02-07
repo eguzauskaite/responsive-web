@@ -1,0 +1,146 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Registracija</title>
+    <link rel="stylesheet" href="registracija.css">
+    <!-- remixicons -->
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/remixicon/3.5.0/remixicon.css">
+
+</head>
+<body>
+    <section class="form">
+        <div class="form__container">
+            <i class="ri-close-line form__close"></i>
+            <!-- Login form -->
+            <div class="form login__form">
+                <form action="#">
+                    <h2>Login</h2>
+                    <div class="input__box">
+                        <input type="email" placeholder="Enter your email" required />
+                        <i class="ri-mail-line"></i>
+                    </div>
+                    <div class="input__box">
+                        <input type="password" placeholder="Enter your password" required />
+                        <i class="ri-lock-password-line"></i>
+                        <i class="ri-eye-off-line"></i>
+                    </div>
+
+                    <div class="option__field">
+                        <span class="checkbox">
+                            <input type="checkbox" id="check">
+                            <label for="check">Remember me</label>
+                        </span>
+                        <a href="#" class="forgot__pw">Forgot password?</a>
+                    </div>
+
+                    <button class="button" id="form-open">Login Now</button>
+                    <div class="login__signup">Don't have an account? <a href="#" id="signup">Signup</a></div>
+                </form>
+            </div>
+
+            <!-- Signup form -->
+            <div class="form signup__form">
+                <form action="#">
+                    <h2>Signup</h2>
+                    <div class="input__box">
+                        <input type="email" placeholder="Enter your email" required />
+                        <i class="ri-mail-line"></i>
+                    </div>
+                    <div class="input__box">
+                        <input type="password" placeholder="Create password" required />
+                        <i class="ri-lock-password-line"></i>
+                        <i class="ri-eye-off-line"></i>
+                    </div>
+                    <div class="input__box">
+                        <input type="password" placeholder="Confirm password" required />
+                        <i class="ri-lock-password-line"></i>
+                        <i class="ri-eye-off-line"></i>
+                    </div>
+
+                    <button class="button">Signup Now</button>
+                    <div class="login__signup">Already have an account? <a href="#" id="loginSignupLink">Login</a></div>
+                </form>
+            </div>
+        </div>
+        <script src="script.js"></script>
+    </section>
+    <script>
+        document.addEventListener("DOMContentLoaded", function () {
+        const formOpenBtn = document.querySelector("#form-open");
+        const home = document.querySelector(".home");
+        const formContainer = document.querySelector(".form__container");
+        const formClose = document.querySelector(".form__close");
+        const signupBtn = document.querySelector("#signup");
+        const loginBtn = document.querySelector("#login");
+
+        const pwShowHide = document.querySelector(".ri-eye-off-line");
+
+        pwShowHide.addEventListener("click", () => {
+            let getPwInput = pwShowHide.parentElement.querySelector("input");
+            if (getPwInput.type === "password") {
+                getPwInput.type = "text";
+                pwShowHide.classList.replace("ri-eye-off-line", "ri-eye");
+            } else {
+                getPwInput.type = "password";
+                pwShowHide.classList.replace("ri-eye", "ri-eye-off-line");
+            }
+        });
+
+        signupBtn.addEventListener("click", (e) => {
+            e.preventDefault();
+            formContainer.classList.add("active");
+        });
+
+        loginBtn.addEventListener("click", (e) => {
+            e.preventDefault();
+            formContainer.classList.remove("active");
+        });
+
+        const loginForm = document.querySelector('.login__form form');
+        const signupForm = document.querySelector('.signup__form form');
+
+        loginForm.addEventListener('submit', function (e) {
+            e.preventDefault();
+            const email = this.querySelector('input[type="email"]').value;
+        const password = this.querySelector('input[type="password"]').value;
+
+            console.log('Login form submitted!');
+            console.log('Email:', email);
+            console.log('Password:', password);
+
+          // -----išsaugom localstorage------//   
+            saveDataToLocalStorage(email, password);
+        });
+
+        signupForm.addEventListener('submit', function (e) {
+            e.preventDefault();
+            const email = this.querySelector('input[type="email"]').value;
+         const password = this.querySelector('input[type="password"]').value;
+            console.log('Signup form submitted!');
+            console.log('Email:', email);
+            console.log('Password:', password);
+
+         // -----išsaugom localstorage------//
+            saveDataToLocalStorage(email, password);
+        });
+        // ------išsaugom duomenis localStorage----//
+        function saveDataToLocalStorage(email, password) {
+        //-- tikrinam, ar duomenys jau egzistuoja localStorage, ir pridedam naujus---//
+        const existingData = JSON.parse(localStorage.getItem('user_data')) || [];
+        const newData = { email, password };
+        existingData.push(newData);
+
+        // ---išsaugom atnaujintus duomenis localStorage--//
+        localStorage.setItem('user_data', JSON.stringify(existingData));
+}
+          const loginSignupBtn = document.querySelector("#loginSignupLink");
+         loginSignupBtn.addEventListener("click", (e) => {
+            e.preventDefault();
+            formContainer.classList.add("active");
+         });
+    });
+    </script>
+</body>
+</html>
